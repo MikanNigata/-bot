@@ -1,0 +1,18 @@
+services:
+  - type: web # workerからwebに変更
+    name: url-checker-bot
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python bot.py"
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false # Renderのダッシュボードで設定
+      - key: DATABASE_URL # PostgreSQLデータベースのURL
+        fromDatabase:
+          name: url-db      # 下で定義するデータベース名
+          property: connectionString
+
+databases:
+  - name: url-db # データベースサービス名
+    databaseName: urldb # データベース自体の名前
+    plan: free # 無料プラン
